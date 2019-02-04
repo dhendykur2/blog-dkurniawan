@@ -1,0 +1,24 @@
+{
+  "name": "blog-dkurniawan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhendykur2/blog-dkurniawan.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dhendykur2/blog-dkurniawan/issues"
+  },
+  "homepage": "https://github.com/dhendykur2/blog-dkurniawan#readme",
+  "dependencies": {
+    "hapi": "^18.0.1",
+    "hapi-auth-basic": "^5.0.0",
+    "joi": "^14.3.1"
+  }
+}
