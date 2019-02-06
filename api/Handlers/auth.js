@@ -12,3 +12,15 @@ module.exports.signout = {
     handler: authController.signout,
     tags: ['api']
 };
+
+module.exports.signup = {
+    handler: authController.signup,
+    tags: ['api'],
+    validate: {
+        payload: {
+            name: Joi.string().required(),
+            email: Joi.string().email().required(),
+            password: Joi.string().required()
+        }
+    }
+};
