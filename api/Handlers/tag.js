@@ -10,7 +10,7 @@ module.exports.createTag = {
         payload: {
             name: Joi.string().required()
         }
-    }
+    },
 };
 
 module.exports.getOne = {

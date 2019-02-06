@@ -41,7 +41,11 @@ module.exports.getOne = (request, reply) => {
     // });
 };
 
-module.exports.getAll = () => {
+module.exports.getAll = (request) => {
+    let isAuth = request.state.session;
+    if (!isAuth){
+        return "false";
+    }
     return tagService.getAll();
 }
 

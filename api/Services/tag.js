@@ -26,4 +26,4 @@ module.exports.getOne = (id) => {
 
 module.exports.getAll = () => {
     return Model.Tag.findAll();
-}
+};
