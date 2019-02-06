@@ -24,6 +24,7 @@ module.exports = {
             // Auth Route
             {method: 'POST', path: '/signin', options: Auth.signin },
             {method: 'GET', path: '/signout', options: Auth.signout},
+            {method: 'POST', path: '/signup', options: Auth.signup},
         ]);
         //server.auth.strategy('simple','basic', validate);
         //server.auth.default('simple')
