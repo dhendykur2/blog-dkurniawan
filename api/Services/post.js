@@ -2,7 +2,7 @@
 
 const Model = require('../../models');
 
-function findByTag (identifier) {
+const findByTag = (identifier) => {
     return Model.Post.findAll({
         include: [
             {
@@ -34,7 +34,6 @@ function findByTag (identifier) {
             exclude: ['updatedAt']
         }
     }).then(post => {
-        //console.log(post);
         return post;
     });
 }
@@ -133,4 +132,94 @@ module.exports.getPostByTag = (identifier) => {
     
 };
 
+module.exports.updatePost = (newData, identifier) => {
+    return Model.Post.findOne({
+        where: {
+            id: identifier
+        }
+    })
+    .then((post) => {
+        return post.update({
+            title: newData.title,
+            description: newData.description,
+            updatedAt: new Date()
+        }).then(() => {
+            return post.id;
+        });
+        
+    })
+    .then((post) => { 
+        console.log(identifier);
+        return Model.PostTag.destroy({
+            where: {
+                postId: identifier
+            }
+        });
+    })
+    .then(() => {
+        let tags = newData.tag.toLowerCase();
+        if(tags){
+            const temp = newData.tag.split(',') || [];
+            //bisa pake map series promise bluebird
+            for (let a in temp) {
+                Model.Tag.findOne({ 
+                    where: {
+                        name: temp[a].toLowerCase() 
+                    }
+                }).then((tag) => {
+                    if (!tag) {
+                        Model.Tag.create({ name: temp[a] })
+                        .then((newTag) => {
+                            Model.PostTag.create({
+                                postId: identifier,
+                                tagId: newTag.id
+                            });
+                        });
+                    }
+                    else {
+                        Model.PostTag.create({
+                            postId: identifier,
+                            tagId: tag.id
+                        });
+                    }
+                })
+            }
+        }
+        return "updated";
+    })
+    .catch(error => {
+        return error;
+    })
+};
 
+module.exports.deletePost = (identifier, userId) => {
+    return Model.Post.findOne({
+        where: {
+            id: identifier
+        }
+    }).then((post) => {
+        //console.log(post);
+        if(!post) {
+            return "not found";
+        }
+        if(post.postedBy !== userId){
+            return "cannot delete someone post";
+        }
+        return Model.PostTag.destroy({
+            where: {
+                postId: identifier
+            }
+        }).then(() => {
+            return Model.Post.destroy({
+                where: {
+                    id: identifier
+                }
+            });
+        })
+        
+    }).then(() => {
+        return "deleted";
+    }).catch(error => {
+        return error;
+    });
+};

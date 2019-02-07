@@ -5,20 +5,20 @@ const tagService = require('../Services/tag');
 module.exports.createTag = (request, reply) => {
     const p = request.payload;
     return tagService.create(p.name);
-    try {
-        tagService.create(p.name)
-        .then((tag) => {
-            return { data: tag };
-        })
-        .catch((error) => {
-            return error;
-        });
-    } catch (error) {
-        console.error(error);
-        return reply({
-            request: request.payload
-        }).code(400);
-    }
+    // try {
+    //     tagService.create(p.name)
+    //     .then((tag) => {
+    //         return { data: tag };
+    //     })
+    //     .catch((error) => {
+    //         return error;
+    //     });
+    // } catch (error) {
+    //     console.error(error);
+    //     return reply({
+    //         request: request.payload
+    //     }).code(400);
+    // }
 };
 
 module.exports.findOne = (request) => {

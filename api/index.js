@@ -14,7 +14,9 @@ module.exports = {
             {method: 'POST', path: '/post', options: Post.create},
             {method: 'GET', path: '/post', options: Post.getAll},
             {method: 'GET', path: '/post/{tag}', options: Post.getPostByTag},
-            
+            {method: 'PUT', path: '/post/{id}', options: Post.updatePost},
+            {method: 'DELETE', path: '/post/{id}', options: Post.deletePost},
+
             // Tag Route
             {method: 'POST', path: '/tag', options: Tag.createTag},
             {method: 'GET', path: '/tag/{id}', options: Tag.getOne},

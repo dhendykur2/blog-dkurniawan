@@ -23,4 +23,14 @@ module.exports.getAll = {
 module.exports.getPostByTag = {
     handler: postController.getPostByTag,
     tags: ['api']
-}
+};
+
+module.exports.updatePost = {
+    handler: postController.updatePost,
+    tags: ['api']
+};
+
+module.exports.deletePost = {
+    handler: postController.deletePost,
+    tags: ['api']
+};
