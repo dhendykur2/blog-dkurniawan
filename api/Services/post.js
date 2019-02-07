@@ -29,7 +29,7 @@ module.exports.create = (newPost, userId, response) => {
                         .then((newTag) => {
                             Model.PostTag.create({
                                 postId: newPostCreated.get('id'),
-                                tagId: tag.id
+                                tagId: newTag.id
                             });
                         });
                         //Model.Tag.save();
