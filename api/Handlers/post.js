@@ -13,4 +13,14 @@ module.exports.create = {
             tag: Joi.string().required()
         }
     }
+};
+
+module.exports.getAll = {
+    handler: postController.getAll,
+    tags: ['api']
+};
+
+module.exports.getPostByTag = {
+    handler: postController.getPostByTag,
+    tags: ['api']
 }

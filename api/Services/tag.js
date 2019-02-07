@@ -16,7 +16,13 @@ module.exports.create = (newTag) => {
 
 module.exports.findOne = (identifier) => {
     return Model.Tag.findOne({
-        where: identifier
+        where: {
+            name: identifier
+        }
+    }).then((tag) => {
+        return tag.get('id');
+    }).catch(error => {
+        return error;
     });
 };
 

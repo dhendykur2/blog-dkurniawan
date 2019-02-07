@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
         unique: true
     }
   }, {
-      classMethods: {
-        associate: function(models) {
-         Tag.hasMany(models.PostTag, {foreignKey: 'tagId'})
-        }
-      },
       freezeTableName: true
   });
+  Tag.associate = function(models) {
+    Tag.hasMany(models.PostTag, {foreignKey: 'tagId'});
+  }
+  Tag.removeAttribute('createdAt');
+  Tag.removeAttribute('updatedAt');
   return Tag;
 };

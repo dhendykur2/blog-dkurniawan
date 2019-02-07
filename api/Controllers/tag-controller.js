@@ -21,6 +21,10 @@ module.exports.createTag = (request, reply) => {
     }
 };
 
+module.exports.findOne = (request) => {
+    return tagService.findOne(request.params.tag);
+}
+
 module.exports.getOne = (request, reply) => {
     return tagService.getOne(request.params.id);
 };

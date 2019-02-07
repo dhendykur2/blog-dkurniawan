@@ -13,6 +13,11 @@ module.exports.createTag = {
     },
 };
 
+module.exports.findOne = {
+    tags: ['api'],
+    handlers: tagController.findOne
+};
+
 module.exports.getOne = {
     tags: ['api'],
     handler: tagController.getOne,

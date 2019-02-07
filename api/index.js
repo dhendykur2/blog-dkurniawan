@@ -12,7 +12,9 @@ module.exports = {
 
             // Post Route
             {method: 'POST', path: '/post', options: Post.create},
-
+            {method: 'GET', path: '/post', options: Post.getAll},
+            {method: 'GET', path: '/post/{tag}', options: Post.getPostByTag},
+            
             // Tag Route
             {method: 'POST', path: '/tag', options: Tag.createTag},
             {method: 'GET', path: '/tag/{id}', options: Tag.getOne},

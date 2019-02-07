@@ -11,7 +11,9 @@ server.route({
     method:'GET',
     path:'/',
     handler:function(request,h) {
-        return '<form method="POST" action="/signin"><label>email</label><input type="text" name="email"><br/><label>password</label><input type="password" name="password"><br/><button>submit</button></form>';
+        return '<form method="POST" action="/signin">'+
+        '<label>email</label><input type="text" name="email"><br/>'+
+        '<label>password</label><input type="password" name="password"><br/><button>submit</button></form>';
     }
 });
 
@@ -19,8 +21,6 @@ const start =  async function() {
     try {
         
         await server.register(require('hapi-auth-cookie'));
-    //     const cache = server.cache({ segment: 'sessions', expiresIn: 3 * 24 * 60 * 60 * 1000 });
-    // server.app.cache = cache;
         server.auth.strategy('session', 'cookie',{
             password : '$2a$10$JwbwopKOwGepKZ/bRbFjB.1Av0HMxxbmGYDeofT55db1WdPEmIf82',
             cookie : 'session',
@@ -39,7 +39,6 @@ const start =  async function() {
                 return out;
             }
         });
-        //server.auth.default('session');
         await server.register(require('./api'));
         await server.start();
     }

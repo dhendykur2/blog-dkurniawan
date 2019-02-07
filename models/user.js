@@ -14,12 +14,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: DataTypes.STRING
   }, {
-    classMethods: {
-      associate: function(models) {
-        User.hasMany(models.Post, {foreignKey: 'postedBy'})
-      }
-    },
     freezeTableName: true
   });
+User.associate = function(models) {
+  User.hasMany(models.Post, {
+    foreignKey: 'postedBy'
+  })
+}
+
   return User;
 };

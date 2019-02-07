@@ -19,6 +19,7 @@
   "homepage": "https://github.com/dhendykur2/blog-dkurniawan#readme",
   "dependencies": {
     "bcrypt": "^3.0.3",
+    "bcryptjs": "^2.4.3",
     "boom": "^7.3.0",
     "hapi": "^18.0.1",
     "hapi-auth-basic": "^5.0.0",

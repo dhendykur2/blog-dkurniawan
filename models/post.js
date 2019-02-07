@@ -7,17 +7,26 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       unique: true
     },
-    postedBy: DataTypes.INTEGER,
+    postedBy: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: sequelize.User,
+        key: 'id'
+      }
+    },
     title: DataTypes.STRING,
     description: DataTypes.STRING
   }, {
-    classMethods: {
-      associate: function(models) {
-        Post.hasMany(models.PostTag, {foreignKey: 'postId'})
-        Post.belongsTo(models.User, {foreignKey: 'postedBy'})
-      }
-    },
     freezeTableName: true
   });
+  Post.associate = (models) => {
+    Post.hasMany(models.PostTag, {
+      foreignKey: 'postId'
+    })
+    Post.belongsTo(models.User, {
+      foreignKey: 'postedBy'
+    })
+  }
+
   return Post;
 };
