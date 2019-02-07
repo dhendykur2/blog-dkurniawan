@@ -1,34 +1,28 @@
 'use strict';
-//get all handlers here to const
+
 const Tag = require('./Handlers/tag');
 const Auth = require('./Handlers/auth');
+const Post = require('./Handlers/post');
 
 module.exports = {
-    
     register: (server) => {
         server.route([
-            //register all route server here
-            //{method: 'GET', path: '/', options: ...},
             // User Route
 
 
             // Post Route
+            {method: 'POST', path: '/post', options: Post.create},
 
             // Tag Route
-            {method: 'POST', path: '/tag', options: Tag.createTag },
-            {method: 'GET', path: '/tag/{id}', options: Tag.getOne },
-            {method: 'GET', path: '/tag', options: Tag.getAll },
-
-            {method: 'PUT', path: '/tag/{id}', options: Tag.update },
+            {method: 'POST', path: '/tag', options: Tag.createTag},
+            {method: 'GET', path: '/tag/{id}', options: Tag.getOne},
+            {method: 'GET', path: '/tag', options: Tag.getAll},
 
             // Auth Route
-            {method: 'POST', path: '/signin', options: Auth.signin },
+            {method: 'POST', path: '/signin', options: Auth.signin},
             {method: 'GET', path: '/signout', options: Auth.signout},
             {method: 'POST', path: '/signup', options: Auth.signup},
         ]);
-        //server.auth.strategy('simple','basic', validate);
-        //server.auth.default('simple')
     },
-    
     name: 'api-plugin'
 };

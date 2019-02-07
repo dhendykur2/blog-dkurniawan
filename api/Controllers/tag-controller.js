@@ -19,26 +19,10 @@ module.exports.createTag = (request, reply) => {
             request: request.payload
         }).code(400);
     }
-    // tagService.create(request.payload)
-    // .then((tag) => {
-    //     reply(tag);
-    // })
-    // .catch((err) => {
-    //     console.log('er');
-    // });
 };
 
 module.exports.getOne = (request, reply) => {
     return tagService.getOne(request.params.id);
-    // .then((tag) => {
-    //     //console.log({data: tag});
-    //     //return res(JSON.stringify(tag));
-    //     return res({ data: tag });
-    // })
-    // .catch((err) => {
-    //     //console.log('db error');
-    //     return res({ req: req.params, err: err.message });
-    // });
 };
 
 module.exports.getAll = (request) => {

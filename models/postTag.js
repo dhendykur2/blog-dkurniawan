@@ -12,5 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     freezeTableName: true
   });
+  PostTag.removeAttribute('id');
   return PostTag;
 };

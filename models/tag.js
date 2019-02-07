@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
       classMethods: {
         associate: function(models) {
-         Tag.hasMany(models.PostTag, { foreignKey: 'tagId'})
+         Tag.hasMany(models.PostTag, {foreignKey: 'tagId'})
         }
       },
       freezeTableName: true

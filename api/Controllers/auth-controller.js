@@ -1,19 +1,20 @@
 'use strict';
 
 const authService = require('../Services/auth');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const Boom = require('boom');
 
-module.exports.signin = (request, reply) => {
+module.exports.signin = (request) => {
     const p = request.payload;
     const isAutthenticated = request.state.session;
+    //console.log(isAutthenticated.user);
     if (isAutthenticated) {
         return "falsed";
     }
-    return authService.signin(p)
+    return authService.signin(p, p.password)
     .then((user) => {
         if(user == "false"){
-            return "false";
+            return "wrong email/password";
         }
         request.cookieAuth.set({user});
         return Promise.resolve(true);

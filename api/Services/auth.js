@@ -1,26 +1,25 @@
 'use strict';
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Model = require('../../models');
 const Hapi = require('hapi');
 
-module.exports.signin = async (user) => {
+module.exports.signin = async (user, password) => {
     return Model.User.findOne({
         where: {
             email: user.email.toLowerCase()
         }
     })
-    .then( user => {
-        console.log(user);
+    .then(user => {
         if (user === null) {
             return "false";
         }
         const isValid = bcrypt.compareSync(password, user.password);
         if (!isValid) {
-            return user;
+            return "false";
         }
-        return "false";
+        return user;
     })
     .catch(error => {
         console.log(error);
