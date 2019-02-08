@@ -3,7 +3,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('PostTag', {
-      postId: {
+      PostId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -11,7 +11,7 @@ module.exports = {
           key: 'id'
         }
       },
-      tagId: {
+      TagId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.DATE
       }
     })
-    .then(()=> queryInterface.addIndex('PostTag', ['postId', 'tagId']));
+    .then(()=> queryInterface.addIndex('PostTag', ['PostId', 'TagId']));
   },
 
   down: (queryInterface, Sequelize) => {

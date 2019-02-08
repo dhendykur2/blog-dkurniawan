@@ -9,15 +9,18 @@ module.exports.signin = async (user, password) => {
     return Model.User.findOne({
         where: {
             email: user.email.toLowerCase()
+        },
+        attributes: {
+            exclude: ['createdAt','updatedAt']
         }
     })
     .then(user => {
-        if (user === null) {
-            return "false";
+        if (!user) {
+            return false;
         }
         const isValid = bcrypt.compareSync(password, user.password);
         if (!isValid) {
-            return "false";
+            return false;
         }
         return user;
     })
@@ -42,9 +45,11 @@ module.exports.signup = (newUser, password) => {
                 password: password,
                 createdAt: Date.now(),
                 updatedAt: Date.now()
+            }).then((user) => {
+                return user;
             });
         }
-        return "email already exists";
+        return false;
     }).catch(error => {
         console.log(error);
         return "false";

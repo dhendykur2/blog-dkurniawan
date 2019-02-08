@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true
   });
   Post.associate = (models) => {
-    Post.hasMany(models.PostTag, {
-      foreignKey: 'postId'
+    Post.belongsToMany(models.Tag, {
+      through: 'PostTag'
     })
     Post.belongsTo(models.User, {
       foreignKey: 'postedBy'

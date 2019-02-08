@@ -10,7 +10,8 @@ module.exports.create = {
         payload: {
             title: Joi.string().required(),
             description: Joi.string().required(),
-            tag: Joi.string().required()
+            tag: Joi.string().required(),
+            postedBy: Joi.number().required()
         }
     }
 };
@@ -22,6 +23,11 @@ module.exports.getAll = {
 
 module.exports.getPostByTag = {
     handler: postController.getPostByTag,
+    tags: ['api']
+};
+
+module.exports.getPostById = {
+    handler: postController.getPostById,
     tags: ['api']
 };
 

@@ -6,6 +6,12 @@ const authController = require('../Controllers/auth-controller');
 module.exports.signin = {
     handler: authController.signin,
     tags: ['api'],
+    validate: {
+        payload: {
+            email: Joi.string().email().required(),
+            password: Joi.string().required()
+        }
+    }
 };
 
 module.exports.signout = {

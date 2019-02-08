@@ -4,32 +4,13 @@ const Model = require('../../models');
 
 const findByTag = (identifier) => {
     return Model.Post.findAll({
-        include: [
-            {
-                model: Model.PostTag,
-                attributes: {
-                    exclude: ['createdAt','updatedAt']
-                    
-                },
-                where: {
-                    tagId: identifier
-                },
-                include: [
-                    {
-                        model: Model.Tag,
-                        attributes: {
-                            exclude: ['createdAt','updatedAt']
-                        },
-                        
-                    }
-                ]
-            }, {
-                model: Model.User,
-                attributes: {
-                    exclude: ['email','password','createdAt', 'updatedAt']
-                },
-            },
-        ],
+        include: [{
+            model: Model.Tag,
+            where: identifier
+        },
+        {
+            model: Model.User
+        }],
         attributes: {
             exclude: ['updatedAt']
         }
@@ -40,43 +21,41 @@ const findByTag = (identifier) => {
 
 module.exports.create = (newPost, userId, response) => {
     return Model.Post.create({
-        postedBy: userId,
+        postedBy: newPost.postedBy,
         title: newPost.title,
         description: newPost.description,
         createdAt: Date.now(),
         updatedAt: Date.now()
     }).then((newPostCreated) => {
-        var temp = new Array();
-        var tags = newPost.tag.toLowerCase();
-        if(tags !== null){
-            temp = newPost.tag.split(',');
-            //console.log(temp);
-            for (var a in temp) {
+        let tags = newPost.tag.toLowerCase();
+        if(tags){
+            const temp = newPost.tag.split(',') || [];
+            //bisa pake map series promise bluebird
+            for (let a in temp) {
                 Model.Tag.findOne({ 
                     where: {
                         name: temp[a].toLowerCase() 
                     }
                 }).then((tag) => {
-                    if (tag === null) {
+                    if (!tag) {
                         Model.Tag.create({ name: temp[a] })
                         .then((newTag) => {
                             Model.PostTag.create({
-                                postId: newPostCreated.get('id'),
-                                tagId: newTag.id
+                                PostId: newPostCreated.id,
+                                TagId: newTag.id
                             });
                         });
                     }
                     else {
                         Model.PostTag.create({
-                            postId: newPostCreated.get('id'),
-                            tagId: tag.id
+                            PostId: newPostCreated.id,
+                            TagId: tag.id
                         });
                     }
                 })
             }
         }
-
-        return "Post Created!";
+        return newPostCreated;
     }).catch(error => {
         console.log(error);
         return "falsed";
@@ -85,34 +64,19 @@ module.exports.create = (newPost, userId, response) => {
 
 module.exports.getAll = () => {
     return Model.Post.findAll({
-        include: [
-            {
-                model: Model.PostTag,
-                attributes: {
-                    exclude: ['createdAt','updatedAt']
-                },
-                include: [
-                    {
-                        model: Model.Tag,
-                        attributes: {
-                            exclude: ['createdAt','updatedAt']
-                        }   
-                    }
-                ]
-            }, {
-                model: Model.User,
-                attributes: {
-                    exclude: ['email','password','createdAt', 'updatedAt']
-                },
-                
-            },
-        ],
-        attributes: {
-            exclude: ['updatedAt']
-        }
+        include: [{
+            model: Model.Tag
+        },
+        {
+            model: Model.User
+        }]
+
     }).then(post => {
-        //console.log(post);
+        console.log(post);
         return post;
+    }).catch(error => {
+        console.log(error);
+        return error;
     });
 };
 
@@ -131,6 +95,31 @@ module.exports.getPostByTag = (identifier) => {
     });
     
 };
+
+module.exports.getPostById = (identifier) => {
+    return Model.Post.findOne({
+        include: [{
+            model: Model.Tag
+        },
+        {
+            model: Model.User
+        }],
+        attributes: {
+            exclude: ['updatedAt']
+        },
+        where: {
+            id: identifier
+        }
+    })
+    .then((post) => {
+        if(!post) return "post not found";
+        return post;
+    })
+    .catch(error => {
+        console.log(error);
+        return error;
+    });
+}
 
 module.exports.updatePost = (newData, identifier) => {
     return Model.Post.findOne({
@@ -152,7 +141,7 @@ module.exports.updatePost = (newData, identifier) => {
         console.log(identifier);
         return Model.PostTag.destroy({
             where: {
-                postId: identifier
+                PostId: identifier
             }
         });
     })
@@ -171,15 +160,15 @@ module.exports.updatePost = (newData, identifier) => {
                         Model.Tag.create({ name: temp[a] })
                         .then((newTag) => {
                             Model.PostTag.create({
-                                postId: identifier,
-                                tagId: newTag.id
+                                PostId: identifier,
+                                TagId: newTag.id
                             });
                         });
                     }
                     else {
                         Model.PostTag.create({
-                            postId: identifier,
-                            tagId: tag.id
+                            PostId: identifier,
+                            TagId: tag.id
                         });
                     }
                 })
@@ -207,7 +196,7 @@ module.exports.deletePost = (identifier, userId) => {
         }
         return Model.PostTag.destroy({
             where: {
-                postId: identifier
+                PostId: identifier
             }
         }).then(() => {
             return Model.Post.destroy({

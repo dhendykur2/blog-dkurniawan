@@ -3,19 +3,21 @@
 const Tag = require('./Handlers/tag');
 const Auth = require('./Handlers/auth');
 const Post = require('./Handlers/post');
+const User = require('./Handlers/user');
 
 module.exports = {
     register: (server) => {
         server.route([
             // User Route
-
+            {method: 'GET', path: '/user/{id}', options: User.getUserById},
 
             // Post Route
             {method: 'POST', path: '/post', options: Post.create},
             {method: 'GET', path: '/post', options: Post.getAll},
-            {method: 'GET', path: '/post/{tag}', options: Post.getPostByTag},
+            {method: 'GET', path: '/post/tag/{tag}', options: Post.getPostByTag},
             {method: 'PUT', path: '/post/{id}', options: Post.updatePost},
             {method: 'DELETE', path: '/post/{id}', options: Post.deletePost},
+            {method: 'GET', path: '/post/{id}', options: Post.getPostById},
 
             // Tag Route
             {method: 'POST', path: '/tag', options: Tag.createTag},

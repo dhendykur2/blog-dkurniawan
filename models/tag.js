@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       freezeTableName: true
   });
   Tag.associate = function(models) {
-    Tag.hasMany(models.PostTag, {foreignKey: 'tagId'});
+    Tag.belongsToMany(models.Post, {through: 'PostTag'});
   }
-  Tag.removeAttribute('createdAt');
-  Tag.removeAttribute('updatedAt');
+  // Tag.removeAttribute('createdAt');
+  // Tag.removeAttribute('updatedAt');
   return Tag;
 };

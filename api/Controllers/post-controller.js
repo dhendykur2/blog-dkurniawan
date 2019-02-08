@@ -3,16 +3,19 @@
 const postService = require('../Services/post');
 const tagService = require('../Services/tag');
 const Boom = require('boom')
+const jwt = require('jsonwebtoken');
 
 module.exports.create = (request) => {
     const p = request.payload;
-    const isAuthenticated = request.state.session;
-    //console.log(isAuthenticated);
-    if (isAuthenticated === undefined) {
-        return "Sign in first";
-    }
-    const userId = isAuthenticated.user.id;
-    return postService.create(p, userId);
+    // const isAuthenticated = request.state.session;
+    // console.log(isAuthenticated.user);
+    // //jwt.decode()
+    // if (!isAuthenticated) {
+    //     return "Sign in First";
+    // }
+    //const userId = isAuthenticated.user.id;
+    return postService.create(p)
+    ;
 };
 
 module.exports.getAll = (request) => {
@@ -22,6 +25,10 @@ module.exports.getAll = (request) => {
 module.exports.getPostByTag = (request) => {
     return postService.getPostByTag(request.params.tag);
 };
+
+module.exports.getPostById = (request) => {
+    return postService.getPostById(request.params.id);
+}
 
 module.exports.updatePost = (request) => {
     return postService.updatePost(request.payload, request.params.id);
