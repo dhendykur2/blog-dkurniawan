@@ -14,6 +14,11 @@ module.exports.create = (request) => {
     //     return "Sign in First";
     // }
     //const userId = isAuthenticated.user.id;
+    const userId = p.postedBy || null;
+    console.log(!userId);
+    if(!userId){
+        return "Sign in First";
+    }
     return postService.create(p)
     ;
 };

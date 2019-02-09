@@ -11,7 +11,7 @@ module.exports.create = {
             title: Joi.string().required(),
             description: Joi.string().required(),
             tag: Joi.string().required(),
-            postedBy: Joi.number().required()
+            postedBy: Joi.number()
         }
     }
 };

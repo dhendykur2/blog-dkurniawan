@@ -25,25 +25,6 @@ const JWT_KEY = 'azEQHAC+yiEggoRKmF/dC3ek3Xi6dWr7OUDiKpRGNFe9X/ZXpn+r79CjitnmMyB
 const start =  async function() {
     try {
         
-        // await server.register(require('hapi-auth-cookie'));
-        // server.auth.strategy('session', 'cookie',{
-        //     password : '$2a$10$JwbwopKOwGepKZ/bRbFjB.1Av0HMxxbmGYDeofT55db1WdPEmIf82',
-        //     cookie : 'session',
-        //     isSecure : false,
-        //     validateFunc: async (request, session) => {
-
-        //         const cached = await cache.get(session.sid);
-        //         const out = {
-        //             valid: !!cached
-        //         };
-    
-        //         if (out.valid) {
-        //             out.credentials = cached.account;
-        //         }
-    
-        //         return out;
-        //     }
-        // });
         await server.register(require('hapi-auth-jwt2'));
         server.auth.strategy('jwt', 'jwt', {
             key: JWT_KEY,

@@ -10,7 +10,8 @@ module.exports = {
         server.route([
             // User Route
             {method: 'GET', path: '/user/{id}', options: User.getUserById},
-
+            {method: 'PUT', path: '/user/{id}', options: User.updatePassword},
+            
             // Post Route
             {method: 'POST', path: '/post', options: Post.create},
             {method: 'GET', path: '/post', options: Post.getAll},

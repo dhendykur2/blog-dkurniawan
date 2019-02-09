@@ -113,6 +113,7 @@ module.exports.getPostById = (identifier) => {
     })
     .then((post) => {
         if(!post) return "post not found";
+        console.log(post);
         return post;
     })
     .catch(error => {
@@ -124,7 +125,8 @@ module.exports.getPostById = (identifier) => {
 module.exports.updatePost = (newData, identifier) => {
     return Model.Post.findOne({
         where: {
-            id: identifier
+            id: identifier,
+            postedBy: newData.userId
         }
     })
     .then((post) => {
