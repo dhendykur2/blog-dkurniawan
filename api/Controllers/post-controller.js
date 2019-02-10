@@ -36,13 +36,35 @@ module.exports.getPostById = (request) => {
 }
 
 module.exports.updatePost = (request) => {
+    const p  = request.payload;
+    const userId = p.postedBy || null;
+    if(!userId) {
+        return "Sign in First";
+    }
     return postService.updatePost(request.payload, request.params.id);
 };
 
 module.exports.deletePost = (request) => {
-    const isAuthenticated = request.state.session;
-    if(!isAuthenticated) {
-        return "Sign in first";
+    // *** not completely yet,, I still use front end authorization
+    //console.log(request);
+    //const p = request.payload.postedBy;
+    // const userId = p || null;
+    // if(!userId) {
+    //     return "Sign in First";
+    // }
+    // const p  = request.payload;
+    // const userId = p.postedBy || null;
+    // if(!userId) {
+    //     return "Sign in First";
+    // }
+    return postService.deletePost(request.params.id, request);
+}
+
+module.exports.getPostByPostedBy = (request) => {
+    const p = request.params.id;
+    const userId = p || null;
+    if(!userId) {
+        return "Sign in First";
     }
-    return postService.deletePost(request.params.id, request.state.session.user.id);
+    return postService.getPostByPostedBy(userId);
 }

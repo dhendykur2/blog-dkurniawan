@@ -125,8 +125,7 @@ module.exports.getPostById = (identifier) => {
 module.exports.updatePost = (newData, identifier) => {
     return Model.Post.findOne({
         where: {
-            id: identifier,
-            postedBy: newData.userId
+            id: identifier
         }
     })
     .then((post) => {
@@ -184,33 +183,82 @@ module.exports.updatePost = (newData, identifier) => {
 };
 
 module.exports.deletePost = (identifier, userId) => {
-    return Model.Post.findOne({
+    //console.log(identifier);
+    return Model.PostTag.destroy({
+        where: {
+            PostId: identifier
+        }
+    })
+    .then(() => {
+        return Model.Post.destroy({
+            where: {
+                id: identifier
+            }
+        });
+    })
+    .catch( error => {
+        console.log(error);
+        return error;
+    });
+    postTag.map( pt => {
+        pt.destroy();
+    })
+    
+    const post = Model.Post.findOne({
         where: {
             id: identifier
         }
-    }).then((post) => {
-        //console.log(post);
-        if(!post) {
-            return "not found";
-        }
-        if(post.postedBy !== userId){
-            return "cannot delete someone post";
-        }
-        return Model.PostTag.destroy({
-            where: {
-                PostId: identifier
-            }
-        }).then(() => {
-            return Model.Post.destroy({
-                where: {
-                    id: identifier
-                }
-            });
-        })
-        
-    }).then(() => {
-        return "deleted";
-    }).catch(error => {
-        return error;
     });
+    post.destroy();
+    // return Model.Post.findOne({
+    //     where: {
+    //         id: identifier
+    //     }
+    // }).then((post) => {
+    //     //console.log(post);
+    //     if(!post) {
+    //         return "not found";
+    //     }
+    //     if(post.postedBy !== userId){
+    //         return "cannot delete someone post";
+    //     }
+        
+    //     return Model.PostTag.destroy({
+    //         where: {
+    //             PostId: identifier
+    //         },
+    //         truncate: true
+    //     }).then((postTag) => {
+    //         console.log(postTag);
+    //         postTag.map( (postTags) => {
+    //             postTags.destroy()
+    //         });
+    //         post.destroy();
+    //         return true;
+    //     });
+    // }).then(() => {
+    //     return "deleted";
+    // }).catch(error => {
+    //     return error;
+    // });
 };
+
+module.exports.getPostByPostedBy = (identifier) => {
+    return Model.Post.findAll({
+        include: [{
+            model: Model.Tag
+        },
+        {
+            model: Model.User
+        }],
+        where: {
+            postedBy: identifier
+        }
+    })
+    .then((post) => {
+        return post;
+    })
+    .catch(error => {
+        return error;
+    })
+}

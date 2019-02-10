@@ -40,3 +40,8 @@ module.exports.deletePost = {
     handler: postController.deletePost,
     tags: ['api']
 };
+
+module.exports.getPostByPostedBy = {
+    handler: postController.getPostByPostedBy,
+    tags: ['api']
+}
